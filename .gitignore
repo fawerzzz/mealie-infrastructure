@@ -1,0 +1,58 @@
+
+# Secrets and credentials
+.env
+.env.*
+!.env.example
+*secret*.yaml
+*secret*.yml
+values-secret.yaml
+secrets/
+credentials/
+*.pem
+*.key
+*.crt
+
+# Kubernetes local configs
+.kube/
+kubeconfig
+kubeconfig.*
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+*.tfvars
+*.tfvars.json
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Python (if needed)
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Helm generated packages
+*.tgz
+charts/
+
+# Local overrides
+values.local.yaml

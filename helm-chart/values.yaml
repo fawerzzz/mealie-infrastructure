@@ -1,0 +1,69 @@
+deployment:
+  replicaCount: 1
+  image: ghcr.io/mealie-recipes/mealie:v3.30.0
+  containerPort: 9000
+
+  resources:
+    requests:
+      cpu: "150m"
+      memory: "300Mi"
+    limits:
+      cpu: "350m"
+      memory: "500Mi"
+
+service:
+  port: 9091
+  targetPort: 9000
+
+postgresService:
+  port: 5432
+  targetPort: 5432
+
+postgres:
+  name: postgres
+  replicaCount: 1
+  image: postgres:16
+  port: 5432
+  database: mealie_db
+
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "256Mi"
+    limits:
+      cpu: "500m"
+      memory: "512Mi"
+
+  readinessProbe:
+    exec:
+      command: ["sh", "-c", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    failureThreshold: 12
+
+  livenessProbe:
+    exec:
+      command: ["sh", "-c", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+
+  storage:
+    storageClassName: local-path
+    size: 1Gi
+  
+  paths:
+    mountPath: /var/lib/postgresql/data
+    pgdata: /var/lib/postgresql/data/pgdata
+
+secret:
+  name: mixed-secret
+  keys:
+    postgresUser: db-user
+    postgresPassword: db-pass
+    postgresUrl: db-url
+
+ingress:
+  host: http:// mealie-fawerzzz.duckdns.org
+  ingressClassName: nginx
