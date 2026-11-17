@@ -1,0 +1,8 @@
+test:
+  stage: test
+  tags:
+    - kubernetes
+  image: alpine:latest
+  script:
+    - echo "Hello from Kubernetes Runner!"
+    - uname -a
