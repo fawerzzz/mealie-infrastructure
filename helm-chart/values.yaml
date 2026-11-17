@@ -1,5 +1,5 @@
 deployment:
-  replicaCount: 1
+  replicaCount: 2
   image: ghcr.io/mealie-recipes/mealie:v3.30.0
   containerPort: 9000
 
@@ -65,5 +65,5 @@ secret:
     postgresUrl: db-url
 
 ingress:
-  host: http:// mealie-fawerzzz.duckdns.org
+  host: mealie-fawerzzz.duckdns.org
   ingressClassName: nginx

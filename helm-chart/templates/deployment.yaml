@@ -31,7 +31,7 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: {{ .Values.secret.name }}
-                  key: {{ .Values.secret.keys.postgresUser }}
+                key: {{ .Values.secret.keys.postgresUser }}
           - name: POSTGRES_PASSWORD
             valueFrom:
               secretKeyRef:
