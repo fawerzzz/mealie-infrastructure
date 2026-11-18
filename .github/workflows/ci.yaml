@@ -1,4 +1,5 @@
 name: CI
+on: [push]
 jobs:
   helm-lint:
     runs-on: ubuntu-latest
