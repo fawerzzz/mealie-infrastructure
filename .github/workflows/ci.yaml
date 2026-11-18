@@ -34,7 +34,8 @@ jobs:
       - name: Show rendered manifests
         run: cat rendered.yaml
       - name: Yamllint
-        run: yamllint -d "{extends: default, rules: {indentation: disable}}" rendered.yaml
+        run: |
+          yamllint -d "{extends: default, rules: {indentation: disable}}" rendered.yaml
       - name: Kubeconform
         run: kubeconform rendered.yaml
 
