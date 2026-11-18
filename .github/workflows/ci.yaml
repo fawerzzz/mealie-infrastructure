@@ -31,11 +31,9 @@ jobs:
           rm kubeconform.tar.gz
       - name: Helm template
         run: helm template mealie ./helm-chart > rendered.yaml
-      - name: Show rendered manifests
-        run: cat rendered.yaml
       - name: Yamllint
         run: |
           yamllint -d "{extends: default, rules: {indentation: disable}}" rendered.yaml
       - name: Kubeconform
-        run: kubeconform rendered.yaml
+        run: kubeconform -summary rendered.yaml
 
