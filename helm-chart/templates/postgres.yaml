@@ -10,8 +10,8 @@ spec:
   selector:
     {{- include "helm-chart.postgresSelectorLabels" . | nindent 4 }}
   ports:
-  - port: {{ .Values.postgres.port }}
-    name: {{ .Values.postgres.name }}
+    - port: {{ .Values.postgres.port }}
+      name: {{ .Values.postgres.name }}
 ---
 
 apiVersion: apps/v1
@@ -31,39 +31,39 @@ spec:
         {{- include "helm-chart.postgresSelectorLabels" . | nindent 8 }}
     spec:
       containers:
-      - name: {{ .Values.postgres.name }}
-        image: {{ .Values.postgres.image }}
-        resources:
-          {{- toYaml .Values.postgres.resources | nindent 10 }}
-        readinessProbe:
-          {{- toYaml .Values.postgres.readinessProbe | nindent 10 }}
-        livenessProbe:
-          {{- toYaml .Values.postgres.livenessProbe | nindent 10 }}
-        env:
-        - name: PGDATA
-          value: {{ .Values.postgres.paths.pgdata | quote }}
-        - name: POSTGRES_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.secret.name }}
-              key: {{ .Values.secret.keys.postgresPassword }}
-        - name: POSTGRES_USER
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.secret.name }}
-              key: {{ .Values.secret.keys.postgresUser }}
-        - name: POSTGRES_DB
-          value: {{ .Values.postgres.database | quote }}
-        volumeMounts:
-        - name: {{ .Values.postgres.name }}-data-volume
-          mountPath: {{ .Values.postgres.paths.mountPath | quote }}
+        - name: {{ .Values.postgres.name }}
+          image: {{ .Values.postgres.image }}
+          resources:
+            {{- toYaml .Values.postgres.resources | nindent 10 }}
+          readinessProbe:
+            {{- toYaml .Values.postgres.readinessProbe | nindent 12 }}
+          livenessProbe:
+            {{- toYaml .Values.postgres.livenessProbe | nindent 12 }}
+          env:
+            - name: PGDATA
+              value: {{ .Values.postgres.paths.pgdata | quote }}
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
+                  key: {{ .Values.secret.keys.postgresPassword }}
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
+                  key: {{ .Values.secret.keys.postgresUser }}
+            - name: POSTGRES_DB
+              value: {{ .Values.postgres.database | quote }}
+          volumeMounts:
+            - name: {{ .Values.postgres.name }}-data-volume
+              mountPath: {{ .Values.postgres.paths.mountPath | quote }}
   volumeClaimTemplates:
-  - metadata:
-      name: {{ .Values.postgres.name }}-data-volume
-    spec:
-      accessModes:
-        - ReadWriteOnce
-      storageClassName: {{ .Values.postgres.storage.storageClassName }}
-      resources:
-        requests:
-          storage: {{ .Values.postgres.storage.size }}
+    - metadata:
+        name: {{ .Values.postgres.name }}-data-volume
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: {{ .Values.postgres.storage.storageClassName }}
+        resources:
+          requests:
+            storage: {{ .Values.postgres.storage.size }}

@@ -16,28 +16,28 @@ spec:
         {{- include "helm-chart.appSelectorLabels" . | nindent 8 }}
     spec:
       containers:
-      - name: {{ .Release.Name }}-app
-        image: {{ .Values.deployment.image }}
-        env:
-          - name: DB_ENGINE
-            value: {{ .Values.postgres.name | quote }}
-          - name: POSTGRES_SERVER
-            value: {{ .Release.Name }}-database
-          - name: POSTGRES_PORT
-            value: {{ .Values.postgres.port | quote }}
-          - name: POSTGRES_DB
-            value: {{ .Values.postgres.database | quote }}
-          - name: POSTGRES_USER
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.secret.name }}
-                key: {{ .Values.secret.keys.postgresUser }}
-          - name: POSTGRES_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.secret.name }}
-                key: {{ .Values.secret.keys.postgresPassword }}
-        resources:
-          {{- toYaml .Values.deployment.resources | nindent 10 }}
-        ports:
-        - containerPort: {{ .Values.deployment.containerPort }}
+        - name: {{ .Release.Name }}-app
+          image: {{ .Values.deployment.image }}
+          env:
+            - name: DB_ENGINE
+              value: {{ .Values.postgres.name | quote }}
+            - name: POSTGRES_SERVER
+              value: {{ .Release.Name }}-database
+            - name: POSTGRES_PORT
+              value: {{ .Values.postgres.port | quote }}
+            - name: POSTGRES_DB
+              value: {{ .Values.postgres.database | quote }}
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
+                  key: {{ .Values.secret.keys.postgresUser }}
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
+                  key: {{ .Values.secret.keys.postgresPassword }}
+          resources:
+            {{- toYaml .Values.deployment.resources | nindent 12 }}
+          ports:
+            - containerPort: {{ .Values.deployment.containerPort }}
