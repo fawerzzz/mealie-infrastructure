@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
+  name: mealie
+  namespace: monitoring
+  labels:
+    release: monitoring
+spec:
+  jobName: mealie
+  interval: 30s
+  module: http_2xx
+  prober:
+    url: blackbox-prometheus-blackbox-exporter.monitoring.svc:9115
+  targets:
+    staticConfig:
+      static:
+        - http://mealie-service.mealie.svc:9091/api/app/about
+        - https://mealie-fawerzzz.duckdns.org/api/app/about
